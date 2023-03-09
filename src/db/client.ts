@@ -1,3 +1,8 @@
+/**
+ * This utility module holds shared Database objects, e.g.
+ * the created MongoClient, its Databases and Collections.
+ */
+
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import { Notification } from '../@types';
 

@@ -1,3 +1,9 @@
+/**
+ * This utility module is responsible to convert data entities
+ * from one to another. E.g. extract relevant data from an
+ * incoming Ghost article and return a notification object
+ * that can be inserted into MongoDB
+ */
 import crypto from 'crypto';
 import { Request } from 'express';
 import { GhostWebhook, GhostArticle, Notification, NotificationEventType } from '../@types';
