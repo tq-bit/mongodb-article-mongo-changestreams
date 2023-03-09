@@ -8,14 +8,37 @@ export default {
 	subscribeToArticleNotification(req: Request, res: Response) {
 		// Step 1: Write the response head and keep the connection open
 		// This will make the browser aware of SSE and listen to followup messages
-		// TODO: Add function to write the head
+		console.log('Step 1: Write the response head and keep the connection open');
+		res.writeHead(200, {
+			'Content-Type': 'text/event-stream',
+			'Cache-Control': 'no-cache',
+			Connection: 'keep-alive',
+		});
+
 		// Step 2: Write the opening event message
 		// For the message to be recognized as SSE; each line must be escaped
 		// The final line must be escaped twice to indicate the end of a single message item
 		// TODO: Add functionality to write the opening message
+		console.log('Step 2: Write the opening event message');
+		res.write('event: open\n');
+		res.write('data: Connection opened!\n'); // Data can be any string
+		res.write(`id: ${crypto.randomUUID()}\n\n`);
 		// Step 3: Subscribe to the Change Stream of MongoDB
 		// This is where we propagate incoming data to connected clients
 		// TODO: Add change stream and event handlers for 'change'
 		// TODO: Add event handler for 'close'
+		setInterval(() => {
+			console.log('Step 3: Send a message every five seconds');
+			res.write(`event: message\n`);
+			res.write(`data: ${JSON.stringify({ message: 'Five seconds have passed' })}\n`);
+			res.write(`id: ${crypto.randomUUID()}\n\n`);
+		}, 5000);
+
+		// Step 4: Handle request events such as client disconnect
+		// Clean up the Change Stream connection and close the connection stream to the client
+		req.on('close', () => {
+			console.log('Step 4: Handle request events such as client disconnect');
+			res.end();
+		});
 	},
 };
