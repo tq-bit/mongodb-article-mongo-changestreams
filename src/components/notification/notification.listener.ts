@@ -18,11 +18,11 @@ export default {
 		// Step 2: Write the opening event message
 		// For the message to be recognized as SSE; each line must be escaped
 		// The final line must be escaped twice to indicate the end of a single message item
-		// TODO: Add functionality to write the opening message
 		console.log('Step 2: Write the opening event message');
 		res.write('event: open\n');
 		res.write('data: Connection opened!\n'); // Data can be any string
 		res.write(`id: ${crypto.randomUUID()}\n\n`);
+
 		// Step 3: Subscribe to the Change Stream of MongoDB
 		// This is where we propagate incoming data to connected clients
 		// TODO: Add change stream and event handlers for 'change'
