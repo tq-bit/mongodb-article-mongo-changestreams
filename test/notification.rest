@@ -1,0 +1,18 @@
+# Create a notification entry
+# > Note that the entry will not actually be created in your Ghost instance,
+# > hence the link will point to a 404 screen
+POST http://localhost:3000/api/notification/article/create
+Content-Type: application/json
+
+{
+  "post": {
+    "current": {
+      "id": "sj7dj-lnhd1-kabah9-107gh-6hypo",
+      "url": "http://localhost:2368/how-to-create-realtime-notifications",
+      "title": "How to create realtime notifications",
+      "visibility": "public"
+    }
+  }
+}
+
+###
