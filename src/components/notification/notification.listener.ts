@@ -25,8 +25,6 @@ export default {
 
 		// Step 3: Subscribe to the Change Stream of MongoDB
 		// This is where we propagate incoming data to connected clients
-		// TODO: Add change stream and event handlers for 'change'
-		// TODO: Add event handler for 'close'
 		// setInterval(() => {
 		// 	console.log('Step 3: Send a message every five seconds');
 		// 	res.write(`event: message\n`);
@@ -47,13 +45,13 @@ export default {
 			res.write(`data: ${JSON.stringify(fullDocument)}\n`);
 			res.write(`id: ${crypto.randomUUID()}\n\n`);
 
-			// Step 4: Handle request events such as client disconnect
-			// Clean up the Change Stream connection and close the connection stream to the client
-			req.on('close', () => {
-				console.log('Step 4: Handle request events such as client disconnect');
-				notificationStream.close();
-				res.end();
-			});
+		});
+		// Step 4: Handle request events such as client disconnect
+		// Clean up the Change Stream connection and close the connection stream to the client
+		req.on('close', () => {
+			console.log('Step 4: Handle request events such as client disconnect');
+			notificationStream.close();
+			res.end();
 		});
 	},
 };
