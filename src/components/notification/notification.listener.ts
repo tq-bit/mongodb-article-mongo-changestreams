@@ -4,6 +4,8 @@ import { Notification } from '../../@types';
 import { notificationCollection } from '../../db/client';
 import { ChangeStreamDocument } from 'mongodb';
 
+const notificationStream = notificationCollection.watch();
+
 export default {
 	subscribeToArticleNotification(req: Request, res: Response) {
 		// Step 1: Write the response head and keep the connection open
@@ -25,7 +27,6 @@ export default {
 
 		// Step 3: Subscribe to the Change Stream of MongoDB
 		// This is where we propagate incoming data to connected clients
-		const notificationStream = notificationCollection.watch();
 		console.log('Step 3: Subscribe to the Change Stream of MongoDB');
 		notificationStream.on('change', (next: ChangeStreamDocument<Notification>) => {
 			console.log('Step 3.1: Change in Database detected!');
@@ -43,7 +44,6 @@ export default {
 			// Clean up the Change Stream connection and close the connection stream to the client
 			req.on('close', () => {
 				console.log('Step 4: Handle request events such as client disconnect');
-				notificationStream.close();
 				res.end();
 			});
 		});
